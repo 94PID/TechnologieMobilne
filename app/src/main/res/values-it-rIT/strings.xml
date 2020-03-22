@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="first_string">Prima String</string>
+    <string name="second_string">Secondo String</string>
+    <string name="third_string">Terzo String</string>
+    <string name="fourth_string">Quarto String</string>
+    <string name="fifth_string">Quinto String</string>
+</resources>
