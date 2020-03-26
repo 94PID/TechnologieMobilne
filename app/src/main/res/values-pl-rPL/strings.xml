@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="app_name">My Application</string>
-    <string name="first_string">Pierwszy String</string>
-    <string name="second_string">Drugi String</string>
-    <string name="third_string">Trzeci String</string>
-    <string name="fourth_string">Czwarty String</string>
-    <string name="fifth_string">Piąty String</string>
-</resources>
