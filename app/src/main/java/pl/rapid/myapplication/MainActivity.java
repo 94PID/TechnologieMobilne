@@ -57,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView name = (TextView) view.findViewById(android.R.id.text1);
+                db.delete(name.getText().toString());
+                adapter.changeCursor(db.list());
+                adapter.notifyDataSetChanged();
+                return true;
+            }
+        });
+
     }
 
     @Override
