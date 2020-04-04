@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -43,6 +46,17 @@ public class MainActivity extends AppCompatActivity {
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(this.adapter);
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView name = (TextView) view.findViewById(android.R.id.text1);
+                Animal animal = db.getAnimal(Integer.parseInt(name.getText().toString()));
+                Intent intent = new Intent(getApplicationContext(), NewEntry.class);
+                intent.putExtra("element", animal);
+                startActivityForResult(intent, 2);
+            }
+        });
+
     }
 
     @Override
@@ -59,6 +73,14 @@ public class MainActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             Animal newEntry = (Animal) extras.get("entry");
             this.db.add(newEntry);
+            adapter.changeCursor(db.list());
+            adapter.notifyDataSetChanged();
+        }
+
+        if (requestCode == 2 && resultCode == RESULT_OK) {
+            Bundle extras = data.getExtras();
+            Animal newEntry = (Animal) extras.get("entry");
+            this.db.update(newEntry);
             adapter.changeCursor(db.list());
             adapter.notifyDataSetChanged();
         }

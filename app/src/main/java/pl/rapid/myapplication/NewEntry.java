@@ -15,6 +15,8 @@ public class NewEntry extends AppCompatActivity {
 
     private ArrayAdapter species;
 
+    private int modyfi_id;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +24,21 @@ public class NewEntry extends AppCompatActivity {
         species = new ArrayAdapter(this, R.layout.support_simple_spinner_dropdown_item, new String[] {"Pies", "Kot", "Rybki"});
         Spinner spinner = findViewById(R.id.speciesSpinner);
         spinner.setAdapter(species);
+
+        Bundle extras = getIntent().getExtras();
+        try {
+            if (extras.getSerializable("element") != null) {
+                Animal animal = (Animal) extras.getSerializable("element");
+
+                ((EditText) findViewById(R.id.colorText)).setText(animal.getColor());
+                ((EditText) findViewById(R.id.descriptionText)).setText(animal.getDescription());
+                ((EditText) findViewById(R.id.sizeText)).setText(Float.toString(animal.getSize()));
+                this.modyfi_id = animal.getId();
+            }
+        } catch (Exception ex) {
+            this.modyfi_id = 0;
+        }
+
     }
 
     public void send(View view) {
@@ -31,6 +48,7 @@ public class NewEntry extends AppCompatActivity {
                 Float.parseFloat(((EditText) findViewById(R.id.sizeText)).getText().toString()),
                 ((EditText) findViewById(R.id.descriptionText)).getText().toString()
         );
+        animal.setId(this.modyfi_id);
 
         Intent intention = new Intent();
         intention.putExtra("entry", animal);
