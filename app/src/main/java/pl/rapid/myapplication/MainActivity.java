@@ -5,8 +5,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleCursorAdapter;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,12 +19,13 @@ import pl.rapid.R;
 public class MainActivity extends AppCompatActivity {
 
     private ArrayList<String> target;
-    private ArrayAdapter adapter;
+    private SimpleCursorAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        MySQLite db = new MySQLite(this);
 
         target = new ArrayList<>();
         String[] values = new String[]{
@@ -33,7 +34,10 @@ public class MainActivity extends AppCompatActivity {
         };
 
         target.addAll(Arrays.asList(values));
-        adapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, this.target);
+        adapter = new SimpleCursorAdapter(this, android.R.layout.simple_list_item_2,
+                db.list(), new String[]{"_id", "species"},
+                new int[]{android.R.id.text1, android.R.id.text2},
+                SimpleCursorAdapter.IGNORE_ITEM_VIEW_TYPE);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(this.adapter);
@@ -41,8 +45,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
+    public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main_menu, menu);
         return true;
